@@ -4,7 +4,6 @@ import './App.css';
 import Header from './components/Header'
 import ToyForm from './components/ToyForm'
 import ToyContainer from './components/ToyContainer'
-
 import data from './data'
 
 
@@ -38,7 +37,7 @@ class App extends React.Component{
     fetch(`http://localhost:3000/toys/${toyId}`, delObj)
     .then(res => res.json())
     .then(res => {
-      this.setState({toys: this.state.toys.filter(toy => toy.id != toyId)})
+      this.setState({toys: this.state.toys.filter(toy => toy.id !== toyId)})
     })
   }
 
@@ -60,13 +59,33 @@ class App extends React.Component{
       })
   }
 
+  addToy = (name, image) => {
+    const addObj = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name: name,
+        image: image
+      })
+    }
+    fetch(`http://localhost:3000/toys/`, addObj)
+    .then(res => res.json())
+    .then(res => console.log(res))
+    // .then(toy => {
+    //   const newToys = [...this.state.toys].push(toy)
+    //   this.setState({toys: newToys})
+    // })
+  }
+
   render() {
     return (
       <>
         <Header/>
         { this.state.display
             ?
-          <ToyForm/>
+          <ToyForm addToy={this.addToy}/>
             :
           null
         }
