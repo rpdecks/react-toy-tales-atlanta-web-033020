@@ -67,16 +67,13 @@ class App extends React.Component{
       },
       body: JSON.stringify({
         name: name,
-        image: image
+        image: image,
+        likes: 0
       })
     }
     fetch(`http://localhost:3000/toys/`, addObj)
     .then(res => res.json())
-    .then(res => console.log(res))
-    // .then(toy => {
-    //   const newToys = [...this.state.toys].push(toy)
-    //   this.setState({toys: newToys})
-    // })
+    .then(toy => this.setState({...toys, toy}))
   }
 
   render() {
